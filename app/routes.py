@@ -6,6 +6,10 @@ from flask_jwt_extended import jwt_required
 import os
 from werkzeug.utils import secure_filename
 
+# Ruta base
+@app.route('/')
+def home():
+    return "Welcome to the API Blog!"
 # Directorio donde se almacenarán las imágenes
 UPLOAD_FOLDER = 'static/uploads'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
@@ -77,37 +81,7 @@ def create_blog():
         return jsonify({"error": f"Missing key: {str(e)}"}), 400
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-# def create_blog():
-#     title = request.form['title']
-#     content = request.form['content']
-#     blog_status = request.form['blog_status']
 
-#     # Verificar si hay una imagen en los archivos
-#     featured_image_url = None
-#     if 'featured_image' in request.files:
-#         file = request.files['featured_image']
-#         if file and allowed_file(file.filename):
-#                 filename = secure_filename(file.filename)
-#                 file_path = os.path.join(UPLOAD_FOLDER, filename)
-#                 print(f"File path: {file_path}")  # Depuración
-#                 file.save(file_path)
-#                 print(f"File saved: {file_path}")  # Depuración
-#                 featured_image_url = url_for('static', filename=f'uploads/{filename}', _external=True)
-#                 print(f"File URL: {featured_image_url}")  # Depuración
-
-        
-#     # Crear el nuevo blog
-#     new_blog = Blog(
-#         title=title,
-#         content=content,
-#         blog_status=blog_status,
-#         featured_image_url=featured_image_url  # Guardar la URL completa de la imagen
-#     )
-
-#     db.session.add(new_blog)
-#     db.session.commit()
-
-#     return blog_schema.jsonify(new_blog), 201
 
 # PATCH para actualizar un blog
 @blog_bp.route('/portfolio_blogs/<int:id>', methods=['PATCH'])

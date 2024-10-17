@@ -37,6 +37,11 @@ def create_app():
     migrate.init_app(app, db)
     jwt.init_app(app)
 
+    # Ruta base
+    @app.route('/')
+    def home():
+        return "Welcome to the API Blog!"
+
     # Registrar blueprints
     from app.routes import blog_bp
     from app.auth import auth_bp

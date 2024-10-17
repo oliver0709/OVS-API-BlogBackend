@@ -44,9 +44,4 @@ def create_app():
     app.register_blueprint(blog_bp, url_prefix='/portfolio')
     app.register_blueprint(auth_bp, url_prefix='/auth')
 
-    # Ruta base
-    @app.route('/')
-    def home():
-        return "Welcome to the API Blog!"
-        
     return app

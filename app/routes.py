@@ -6,10 +6,7 @@ from flask_jwt_extended import jwt_required
 import os
 from werkzeug.utils import secure_filename
 
-# Ruta base
-@app.route('/')
-def home():
-    return "Welcome to the API Blog!"
+
 # Directorio donde se almacenarán las imágenes
 UPLOAD_FOLDER = 'static/uploads'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)

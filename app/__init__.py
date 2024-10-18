@@ -26,10 +26,9 @@ def create_app():
     app.config['JWT_SECRET_KEY'] = os.environ.get('JWT_SECRET_KEY')
 
     # Inicializar CORS
-    CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}}, supports_credentials=True)
-
-
+    CORS(app, resources={r"/*": {"origins": ["http://localhost:5173", "https://ovs-api-blogbackend.onrender.com"]}}, supports_credentials=True)
     # Inicialización de extensiones con la app
+   
     db.init_app(app)
     with app.app_context():
         db.create_all()

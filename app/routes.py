@@ -118,21 +118,21 @@ def delete_blog(id):
 def delete_featured_image(id):
     blog = Blog.query.get_or_404(id)
 
-    # Verificar si hay una imagen para eliminar
-    if blog.featured_image_url:
-        image_path = blog.featured_image_url.split('/static/')[-1]  # Obtener el path relativo
-        full_image_path = os.path.join('static', image_path)
-        
-        # Intentar eliminar la imagen del servidor
-        try:
-            if os.path.exists(full_image_path):
-                os.remove(full_image_path)
-                blog.featured_image_url = None  # Remover la URL de la imagen en la base de datos
-                db.session.commit()
-                return jsonify({'message': 'Imagen eliminada correctamente'}), 200
-            else:
-                return jsonify({'error': 'La imagen no fue encontrada en el servidor'}), 404
-        except Exception as e:
-            return jsonify({'error': str(e)}), 500
-    else:
+    # Verificar si el blog tiene una imagen para eliminar
+    if not blog.featured_image_url:
         return jsonify({'error': 'No hay imagen para eliminar'}), 400
+
+    image_path = blog.featured_image_url.split('/static/')[-1]  # Obtener el path relativo
+    full_image_path = os.path.join('static', image_path)
+
+    # Intentar eliminar la imagen del servidor
+    try:
+        if os.path.exists(full_image_path):
+            os.remove(full_image_path)
+            blog.featured_image_url = None  # Remover la URL de la imagen en la base de datos
+            db.session.commit()
+            return jsonify({'message': 'Imagen eliminada correctamente'}), 200
+        else:
+            return jsonify({'error': 'La imagen no fue encontrada en el servidor'}), 404
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500

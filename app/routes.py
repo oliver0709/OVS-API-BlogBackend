@@ -122,6 +122,9 @@ def delete_featured_image(id):
     if not blog.featured_image_url:
         return jsonify({'error': 'No hay imagen para eliminar'}), 400
 
+    # Depuración: Imprimir la URL de la imagen antes de procesar
+    print(f"Intentando eliminar la imagen: {blog.featured_image_url}")
+
     image_path = blog.featured_image_url.split('/static/')[-1]  # Obtener el path relativo
     full_image_path = os.path.join('static', image_path)
 
@@ -133,6 +136,8 @@ def delete_featured_image(id):
             db.session.commit()
             return jsonify({'message': 'Imagen eliminada correctamente'}), 200
         else:
+            print(f"La imagen no se encontró en el servidor: {full_image_path}")
             return jsonify({'error': 'La imagen no fue encontrada en el servidor'}), 404
     except Exception as e:
+        print(f"Error al intentar eliminar la imagen: {str(e)}")
         return jsonify({'error': str(e)}), 500
